@@ -1,6 +1,8 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require('cli-table');
+var colors = require('colors');
+
 const divider ="------------------------------------------------------------------------------------------"
 
 var connection = mysql.createConnection({
@@ -24,7 +26,8 @@ connection.connect(function(err) {
   if (err) throw err;
 
   var table = new Table({
-    head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Quantity']
+    head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Quantity'],
+    style: {head: ['green']},
 });
   //Select all customers and return the result object:
   connection.query("SELECT * FROM products \G", function (err, rows, fields) {
