@@ -1,0 +1,24 @@
+{
+  "name": "amazonclone",
+  "version": "1.0.0",
+  "description": "An Amazon-like CLI application that demonstrates the use of Node.js and SQL",
+  "main": "bamazonClone.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eg22453/AmazonClone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eg22453/AmazonClone/issues"
+  },
+  "homepage": "https://github.com/eg22453/AmazonClone#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "inquirer": "^6.3.1",
+    "mysql": "^2.17.1"
+  }
+}
