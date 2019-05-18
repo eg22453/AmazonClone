@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const Table = require('cli-table');
 const colors = require('colors');
 const divider = "------------------------------------------------------------------------------------------"
-
+let table;
 var connection = mysql.createConnection({
   host: "localhost",
 
@@ -24,7 +24,7 @@ console.log(divider)
 connection.connect(function (err) {
   if (err) throw err;
 
-  var table = new Table({
+  table = new Table({
     head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Quantity'],
     style: {
       head: ['green']
@@ -37,6 +37,7 @@ connection.connect(function (err) {
       //push each row to our formatted table
       table.push([rows[i].item_id, rows[i].product_name, rows[i].department_name, rows[i].price, rows[i].stock_quantity]);
     }
+    //console.log(table)
     //display table to console
     console.log(table.toString() + "\n")
     promptuser()
@@ -64,20 +65,24 @@ function promptuser() {
         if (err) throw err;
 
         if (rows[0].stock_quantity < parseInt(res.quantitytobuy)) {
-          console.log("Insufficient Quantity!!! Try again")
+          console.log("\n Insufficient Quantity!!! Try again \n")
           promptuser()
-          console.log("passed check")
-        } else {
+        } 
+        else {
           //if purchase is legal then we make a variable to hold new updated inventory 
           let newstockq = rows[0].stock_quantity - parseInt(res.quantitytobuy)
+          let cost = parseInt(res.quantitytobuy) * parseInt(rows[0].price)
+          console.log(colors.yellow("\n The total cost will be $" + cost + "\n\n"))
           //now we update our SQL table to reflect the purchase
           connection.query("UPDATE products SET stock_quantity =? WHERE item_id =?", [newstockq, res.itemid], function (err, rows, fields) {
             if (err) throw err;
-            
-            console.log(newstockq)
-
+            //need to update table strings
+            //update the formatted table to reflect the SQL update
+            table[parseInt(res.itemid) - 1][4] = newstockq
+            console.log(table.toString() + "\n")
+            //loop through the questions again 
+            promptuser()
           })
-
           //update table etc...
         }
         // Use user feedback for... whatever!!
