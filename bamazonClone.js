@@ -3,7 +3,7 @@ var inquirer = require("inquirer");
 var Table = require('cli-table');
 var colors = require('colors');
 
-const divider ="------------------------------------------------------------------------------------------"
+const divider = "------------------------------------------------------------------------------------------"
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -22,35 +22,46 @@ var connection = mysql.createConnection({
 console.log("\n Hello! Welcome to Bamazon!! Below you will see the products that are currently for sale. \n")
 console.log(divider)
 
-connection.connect(function(err) {
-  if (err) throw err;
-
-  var table = new Table({
-    head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Quantity'],
-    style: {head: ['green']},
-});
-  //Select all customers and return the result object:
-  connection.query("SELECT * FROM products \G", function (err, rows, fields) {
+connection.connect(function (err) {
     if (err) throw err;
-    for (var i =0; i <rows.length; i++){
-      //push each row to our formatted table
-      table.push([rows[i].item_id, rows[i].product_name, rows[i].department_name, rows[i].price, rows[i].stock_quantity]);
-    }
-    //display table to console
-    console.log(table.toString())
-  });
-  connection.end();
-});
+
+    var table = new Table({
+      head: ['Item ID', 'Product Name', 'Department Name', 'Price', 'Quantity'],
+      style: {
+        head: ['green']
+      },
+    });
+    //Select all customers and return the result object:
+    connection.query("SELECT * FROM products", function (err, rows, fields) {
+      if (err) throw err;
+      for (var i = 0; i < rows.length; i++) {
+        //push each row to our formatted table
+        table.push([rows[i].item_id, rows[i].product_name, rows[i].department_name, rows[i].price, rows[i].stock_quantity]);
+      }
+      //display table to console
+      console.log(table.toString() + "\n")
+      promptuser()
+    });
+    connection.end();
+
+  }
+);
 
 
-
-
-// inquirer
-//   .prompt([{
-//     name: "response",
-//     message: "Would you like to [POST] an auction or [BID] on an auction?"
-//   }])
-//   .then(res => {
-//     console.log(res.response)
-//     // Use user feedback for... whatever!!
-//   });
+//function to ask user which item and what quantity they want to buy
+function promptuser() {
+  inquirer
+    .prompt([{
+        name: "itemid",
+        message: "Which Item ID would you like to buy?"
+      },
+      {
+        name: "quantitytobuy",
+        message: "How many units of the product would you like to buy?"
+      }
+    ])
+    .then(res => {
+      console.log(res.response)
+      // Use user feedback for... whatever!!
+    });
+}
