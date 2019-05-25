@@ -37,8 +37,3 @@ VALUES ("Slim Jims", "food/drink", 1, 300);
 INSERT INTO products (product_name, department_name, price,  stock_quantity)
 VALUES ("Tame Impala Discography", "music", 35, 43);
 
-
-
-
-
-
