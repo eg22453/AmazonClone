@@ -6,7 +6,7 @@ An Amazon-like CLI application that demonstrates the use of Node.js and SQL. Thi
 This project demonstrates the use of node applications and SQL database incorporation.
 
 ## Screenshots
-Include logo/demo screenshot etc.
+![image](https://user-images.githubusercontent.com/8785431/58362731-3143d500-7e60-11e9-9c41-1e4f5b22b8c1.png)
 
 
 
